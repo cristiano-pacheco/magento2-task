@@ -8,6 +8,7 @@ use Magento\Framework\View\Element\Template\Context;
 
 use ITfy\Task\Model\ResourceModel\Task\CollectionFactory as TaskCollectionFactory;
 use ITfy\Task\Block\Task\Traits\TaskBlock;
+use ITfy\Task\Model\Status;
 
 class TaskList extends Template
 {
@@ -21,17 +22,24 @@ class TaskList extends Template
     /**
      * @var TaskCollectionFactory
      */
-    protected $TaskFactory;
+    protected $taskFactory;
+
+    /**
+     * @var Status
+     */
+    protected $statusModel;
 
     public function __construct(
         Context $context,
         Session $customerSession,
-        TaskCollectionFactory $TaskFactory,
+        TaskCollectionFactory $taskFactory,
+        Status $statusModel,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->customerSession = $customerSession;
-        $this->TaskFactory = $TaskFactory;
+        $this->taskFactory = $taskFactory;
+        $this->statusModel = $statusModel;
         $this->getTasks();
     }
 
@@ -46,12 +54,19 @@ class TaskList extends Template
 
     public function getTasks()
     {
-        $data = [];
-
-        $TaskCollection = $this->TaskFactory->create();
+        $TaskCollection = $this->taskFactory->create();
 
         $data = $TaskCollection->getData();
 
         return $data;
+    }
+
+    /**
+     * @param int|string $id
+     * @return string|null
+     */
+    public function getStatus($id)
+    {
+        return $this->statusModel->getStatus($id);
     }
 }

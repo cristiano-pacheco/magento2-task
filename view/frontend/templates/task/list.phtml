@@ -1,5 +1,5 @@
 <?php
-/** @var \ITfy\Task\Block\Task\TasktList $block */
+/** @var \ITfy\Task\Block\Task\TaskList $block */
 
 /** @var \ITfy\Task\Model\ResourceModel\Task\CollectionFactory $tasks */
 $tasks = $block->getTasks();
@@ -31,13 +31,13 @@ $tasks = $block->getTasks();
                     <td data-th="<?php echo $block->escapeHtml(__('Description')) ?>" class="col title">
                         <?php echo $block->escapeHtml($task['description']); ?>
                     </td>
-                    <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col title">
+                    <td data-th="<?php echo $block->escapeHtml(__('Assigned Person')) ?>" class="col title">
                         <?php echo $block->escapeHtml($task['assigned_person']); ?>
                     </td>
-                    <td data-th="<?php echo $block->escapeHtml(__('Started At')) ?>" class="col title">
-                        <?php echo $block->escapeHtml($task['status']); ?>
+                    <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($block->getStatus($task['status'])); ?>
                     </td>
-                    <td data-th="<?php echo $block->escapeHtml(__('Finished At')) ?>" class="col title">
+                    <td data-th="<?php echo $block->escapeHtml(__('Started At')) ?>" class="col title">
                         <?php echo $block->escapeHtml($task['started_at']); ?>
                     </td>
                     <td data-th="<?php echo $block->escapeHtml(__('Finished At')) ?>" class="col title">
