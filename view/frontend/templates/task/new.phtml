@@ -2,6 +2,8 @@
 // @codingStandardsIgnoreFile
 
 /** @var \ITfy\Task\Block\Task\NewTask $block */
+/** @var \ITfy\Task\Helper\Data $helper */
+$helper = $this->helper('ITfy\Task\Helper\Data');
 ?>
 
 <form class="form"
@@ -28,6 +30,7 @@
                        title="<?php echo $block->escapeHtmlAttr(__('Name')) ?>"
                        class="input-text"
                        data-validate="{required:true}"
+                       value="<?php echo $block->escapeHtmlAttr($helper->getPostValue('name')) ?>"
                 />
             </div>
         </div>
@@ -45,7 +48,7 @@
                             "required": true,
                             "min-words": 4
                           }'>
-
+                    <?php echo $block->escapeHtmlAttr($helper->getPostValue('description')) ?>
                 </textarea>
             </div>
         </div>
@@ -60,6 +63,7 @@
                        title="<?php echo $block->escapeHtmlAttr(__('Assigned Person')) ?>"
                        class="input-text"
                        data-validate="{}"
+                       value="<?php echo $block->escapeHtmlAttr($helper->getPostValue('assigned_person')) ?>"
                 />
             </div>
         </div>
@@ -74,6 +78,7 @@
                        title="<?php echo $block->escapeHtmlAttr(__('Started At')) ?>"
                        class="input-text"
                        data-validate="{}"
+                       value="<?php echo $block->escapeHtmlAttr($helper->getPostValue('started_at')) ?>"
                 />
             </div>
         </div>
@@ -88,6 +93,7 @@
                        title="<?php echo $block->escapeHtmlAttr(__('Finished At')) ?>"
                        class="input-text"
                        data-validate="{}"
+                       value="<?php echo $block->escapeHtmlAttr($helper->getPostValue('finished_at')) ?>"
                 />
             </div>
         </div>
@@ -96,9 +102,13 @@
                 <span><?php echo $block->escapeHtmlAttr(__('Status')); ?></span>
             </label>
             <div class="control">
+                <span><?php $statusPosted = $block->escapeHtmlAttr($helper->getPostValue('status')); ?></span>
                 <select name="status" id="status" class="select">
+                    <option></option>
                     <?php foreach ($block->getStatuses() as $key => $status): ?>
-                    <option value="<?php echo $key; ?>"><?php echo $status; ?></option>
+                    <option <?php if ($statusPosted == $key) echo 'selected'; ?> value="<?php echo $key; ?>">
+                        <?php echo $status; ?>
+                    </option>
                     <?php endforeach; ?>
                 </select>
             </div>

@@ -7,6 +7,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException;
 use Psr\Log\LoggerInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\App\Request\DataPersistorInterface;
 use Zend\Validator\Date as DateValidator;
 use ITfy\Task\Model\TaskFactory;
 use ITfy\Task\Model\ResourceModel\Task as TaskResourceModel;
@@ -29,6 +30,11 @@ class Save extends Action
      * @var DateValidator
      */
     protected $dateValidator;
+
+    /**
+     * @var DataPersistorInterface
+     */
+    protected $dataPersistor;
 
     /**
      * @var TaskFactory
@@ -60,6 +66,7 @@ class Save extends Action
         LoggerInterface $logger,
         TimezoneInterface $timezone,
         DateValidator $dateValidator,
+        DataPersistorInterface $dataPersistor,
         TaskFactory $taskModelFactory,
         TaskResourceModel $taskResourceModel,
         Status $statusModel
@@ -68,6 +75,7 @@ class Save extends Action
         $this->timezone = $timezone;
         $this->taskModelFactory = $taskModelFactory;
         $this->dateValidator = $dateValidator;
+        $this->dataPersistor = $dataPersistor;
         $this->taskResourceModel = $taskResourceModel;
         $this->statusModel = $statusModel;
         parent::__construct($context);
@@ -107,12 +115,14 @@ class Save extends Action
 
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
+            $this->dataPersistor->set('customer_task', $this->getRequest()->getParams());
             return $this->resultRedirectFactory->create()->setPath('*/*/new');
         } catch (\Exception $e) {
             $this->logger->critical($e);
             $this->messageManager->addErrorMessage(
                 __('An error occurred while processing your form. Please try again later.')
             );
+            $this->dataPersistor->set('customer_task', $this->getRequest()->getParams());
         }
 
         return $this->resultRedirectFactory->create()->setPath('customer/task');
