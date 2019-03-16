@@ -1,0 +1,70 @@
+<?php
+/** @var \ITfy\Task\Block\Task\TasktList $block */
+
+/** @var \ITfy\Task\Model\ResourceModel\Task\CollectionFactory $tasks */
+$tasks = $block->getTasks();
+?>
+<?php if(count($tasks)): ?>
+    <div class="table-wrapper downloadable-products">
+        <table id="my-downloadable-products-table" class="data table table-downloadable-products">
+            <caption class="table-caption"><?php echo __('Tasks List') ?></caption>
+            <thead>
+            <tr>
+                <th scope="col" class="col title"><?php echo __('ID') ?></th>
+                <th scope="col" class="col title"><?php echo __('Name') ?></th>
+                <th scope="col" class="col title"><?php echo __('Description') ?></th>
+                <th scope="col" class="col title"><?php echo __('Assigned Person') ?></th>
+                <th scope="col" class="col title"><?php echo __('Status') ?></th>
+                <th scope="col" class="col title"><?php echo __('Started At') ?></th>
+                <th scope="col" class="col title"><?php echo __('Finished At') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($tasks as $task): ?>
+                <tr>
+                    <td data-th="<?php echo $block->escapeHtml(__('ID')) ?>" class="col title">
+                        <?php echo $task['entity_id'] ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Name')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($task['name']); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Description')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($task['description']); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Status')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($task['assigned_person']); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Started At')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($task['status']); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Finished At')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($task['started_at']); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Finished At')) ?>" class="col title">
+                        <?php echo $block->escapeHtml($task['finished_at']); ?>
+                    </td>
+                    <td data-th="<?php echo $block->escapeHtml(__('Actions')) ?>" class="col actions">
+                        <a href="<?php  echo $block->getViewUrl($task) ?>" class="action view">
+                            <span><?php  echo __('View') ?></span>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <?php if ($block->getChildHtml('pager')): ?>
+        <div class="toolbar downloadable-products-toolbar bottom">
+            <?php echo $block->getChildHtml('pager'); ?>
+        </div>
+    <?php endif; ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php echo __('You have not tasks!'); ?></span></div>
+<?php endif; ?>
+<div class="actions-toolbar">
+    <div class="primary">
+        <a href="<?php echo $block->escapeUrl($block->getNewTaskUrl()) ?>" class="action new">
+            <span><span><?php echo __('New Task') ?></span> </span>
+        </a>
+    </div>
+</div>
