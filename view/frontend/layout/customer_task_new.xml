@@ -5,8 +5,10 @@
     <update handle="customer_account"/>
     <body>
         <referenceContainer name="content">
-            <block class="ITfy\Task\Block\Task\TaskList" name="customer.list.task"
-                   template="ITfy_Task::task/list.phtml" cacheable="false"/>
+            <block class="ITfy\Task\Block\Task\NewTask" name="customer.new.task"
+                   template="ITfy_Task::task/new.phtml"
+                   cacheable="false"
+            />
         </referenceContainer>
     </body>
 </page>

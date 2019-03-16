@@ -1,0 +1,125 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var \ITfy\Task\Block\Task\NewTask $block */
+?>
+
+<form class="form"
+      action="<?php echo $block->escapeUrl($block->getSaveTaskUrl()) ?>"
+      id="customer_task_form"
+      method="post"
+      data-hasrequired="<?php echo $block->escapeHtmlAttr(__('* Required Fields')) ?>"
+      data-mage-init='{"validation":{}}'
+      autocomplete="off">
+    <fieldset class="fieldset info">
+        <?php echo $block->getBlockHtml('formkey') ?>
+        <legend class="legend">
+            <span><?php echo $block->escapeHtml(__('Task Information')) ?></span>
+        </legend>
+        <br>
+        <div class="field name required">
+            <label class="label" for="name">
+                <span><?php echo $block->escapeHtml(__('Name')) ?></span>
+            </label>
+            <div class="control">
+                <input type="text"
+                       name="name"
+                       id="name"
+                       title="<?php echo $block->escapeHtmlAttr(__('Name')) ?>"
+                       class="input-text"
+                       data-validate="{required:true}"
+                />
+            </div>
+        </div>
+        <div class="field description required">
+            <label class="label" for="description">
+                <span><?php echo $block->escapeHtml(__('Description')) ?></span>
+            </label>
+            <div class="control">
+                <textarea name="description"
+                          id="description"
+                          class="input-text"
+                          cols="15"
+                          rows="5"
+                          data-validate='{
+                            "required": true,
+                            "min-words": 4
+                          }'>
+
+                </textarea>
+            </div>
+        </div>
+        <div class="field started_at">
+            <label class="label" for="started_at">
+                <span><?php echo $block->escapeHtml(__('Started At')) ?></span>
+            </label>
+            <div class="control">
+                <input type="text"
+                       name="started_at"
+                       id="started_at"
+                       title="<?php echo $block->escapeHtmlAttr(__('Started At')) ?>"
+                       class="input-text"
+                       data-validate="{}"
+                />
+            </div>
+        </div>
+        <div class="field finished_at">
+            <label class="label" for="finished_at">
+                <span><?php echo $block->escapeHtml(__('Finished At')) ?></span>
+            </label>
+            <div class="control">
+                <input type="text"
+                       name="finished_at"
+                       id="finished_at"
+                       title="<?php echo $block->escapeHtmlAttr(__('Finished At')) ?>"
+                       class="input-text"
+                       data-validate="{}"
+                />
+            </div>
+        </div>
+        <div class="field find required">
+            <label class="label" for="quick-search-type-id">
+                <span><?php echo $block->escapeHtmlAttr(__('Status')); ?></span>
+            </label>
+            <div class="control">
+                <select name="status" id="status" class="select">
+                    <option value="1"><?php echo 'TODO'; ?></option>
+                    <option value="2"><?php echo 'In Progress'; ?></option>
+                    <option value="3"><?php echo 'Done'; ?></option>
+                </select>
+            </div>
+        </div>
+    </fieldset>
+    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit"
+                    class="action save primary"
+                    title="<?php echo $block->escapeHtmlAttr(__('Save')) ?>">
+                <span><?php echo $block->escapeHtml(__('Save')) ?></span>
+            </button>
+        </div>
+        <div class="secondary">
+            <a class="action"
+               href="<?php echo $block->escapeUrl($block->getBackUrl()) ?>">
+                <span><?php echo $block->escapeHtml(__('Go back')) ?></span>
+            </a>
+        </div>
+    </div>
+</form>
+
+
+<script>
+    require([
+        "jquery",
+        "mage/calendar"
+    ], function($){
+        $("#started_at").calendar({
+            buttonText:"<?php echo __('Select Date') ?>"
+        });
+
+        $("#finished_at").calendar({
+            buttonText:"<?php echo __('Select Date') ?>"
+        });
+    });
+</script>
