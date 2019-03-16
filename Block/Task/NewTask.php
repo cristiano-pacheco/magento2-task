@@ -31,7 +31,7 @@ class NewTask extends Template
     protected function _construct()
     {
         parent::_construct();
-        $this->pageConfig->getTitle()->set(__('New Ticket'));
+        $this->pageConfig->getTitle()->set(__('New Task'));
     }
 
     /**

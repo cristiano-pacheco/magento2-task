@@ -49,6 +49,20 @@
                 </textarea>
             </div>
         </div>
+        <div class="field assigned_person">
+            <label class="label" for="name">
+                <span><?php echo $block->escapeHtml(__('Assigned Person')) ?></span>
+            </label>
+            <div class="control">
+                <input type="text"
+                       name="assigned_person"
+                       id="assigned_person"
+                       title="<?php echo $block->escapeHtmlAttr(__('Assigned Person')) ?>"
+                       class="input-text"
+                       data-validate="{}"
+                />
+            </div>
+        </div>
         <div class="field started_at">
             <label class="label" for="started_at">
                 <span><?php echo $block->escapeHtml(__('Started At')) ?></span>
