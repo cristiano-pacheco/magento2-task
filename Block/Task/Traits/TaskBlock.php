@@ -36,4 +36,13 @@ trait TaskBlock
     {
         return $this->getUrl('customer/task/save');
     }
+
+    /**
+     * @param array $task
+     * @return string
+     */
+    public function getDeleteUrl($task)
+    {
+        return $this->getUrl('customer/task/delete', ['id' => $task['entity_id']]);
+    }
 }

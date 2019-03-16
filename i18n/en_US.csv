@@ -11,3 +11,7 @@
 "Status","Status"
 "Started At","Started At"
 "Finished At","Finished At"
+"Delete", "Delete"
+"Invalid task", "Invalid task"
+"You deleted the task", "You deleted the task"
+"Something went wrong while trying to delete the task", "Something went wrong while trying to delete the task"

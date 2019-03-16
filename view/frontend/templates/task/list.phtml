@@ -44,8 +44,8 @@ $tasks = $block->getTasks();
                         <?php echo $block->escapeHtml($block->formatDate($task['finished_at'])); ?>
                     </td>
                     <td data-th="<?php echo $block->escapeHtml(__('Actions')) ?>" class="col actions">
-                        <a href="<?php  echo $block->getViewUrl($task) ?>" class="action view">
-                            <span><?php  echo __('View') ?></span>
+                        <a href="<?php  echo $block->getDeleteUrl($task) ?>" class="action delete">
+                            <span><?php  echo __('Delete') ?></span>
                         </a>
                     </td>
                 </tr>
