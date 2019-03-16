@@ -21,4 +21,12 @@ class Status
     {
         return $this->status[$id] ?? null;
     }
+
+    /**
+     * @return array
+     */
+    public function getStatuses()
+    {
+        return $this->status;
+    }
 }
