@@ -26,6 +26,14 @@ class Edit extends Action
 
     public function execute()
     {
-        return $this->resultPageFactory->create();
+        $resultPage = $this->resultPageFactory->create();
+
+        $navigationBlock = $resultPage->getLayout()->getBlock('customer_account_navigation');
+
+        if ($navigationBlock) {
+            $navigationBlock->setActive('customer/task');
+        }
+
+        return $resultPage;
     }
 } 
