@@ -1,0 +1,23 @@
+{
+  "name": "cristianopacheco/magento-2-task",
+  "description": "Task module for Magento 2",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "require": {
+    "php": "~7.1.3||~7.2.0",
+    "magento/framework": "102.0.*"
+  },
+  "repositories": {
+    "type": "composer",
+    "url": "https://repo.magento.com/"
+  },
+  "minimum-stability": "stable",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "ITfy\\Task\\": ""
+    }
+  }
+}
