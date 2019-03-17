@@ -38,10 +38,10 @@ $tasks = $block->getTasks();
                         <?php echo $block->escapeHtml($block->getStatus($task['status'])); ?>
                     </td>
                     <td data-th="<?php echo $block->escapeHtml(__('Started At')) ?>" class="col title">
-                        <?php echo $block->escapeHtml($block->formatDate($task['started_at'])); ?>
+                        <?php echo $block->escapeHtml($block->formatDateToApp($task['started_at'])); ?>
                     </td>
                     <td data-th="<?php echo $block->escapeHtml(__('Finished At')) ?>" class="col title">
-                        <?php echo $block->escapeHtml($block->formatDate($task['finished_at'])); ?>
+                        <?php echo $block->escapeHtml($block->formatDateToApp($task['finished_at'])); ?>
                     </td>
                     <td data-th="<?php echo $block->escapeHtml(__('Actions')) ?>" class="col actions">
                         <a href="<?php  echo $block->getEditUrl($task) ?>" class="action edit">

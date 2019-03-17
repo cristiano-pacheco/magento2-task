@@ -47,9 +47,7 @@ $helper = $this->helper('ITfy\Task\Helper\Data');
                           data-validate='{
                             "required": true,
                             "min-words": 4
-                          }'>
-                    <?php echo $block->escapeHtmlAttr($helper->getPostValue('description')) ?>
-                </textarea>
+                          }'><?php echo $block->escapeHtmlAttr($helper->getPostValue('description')) ?></textarea>
             </div>
         </div>
         <div class="field assigned_person">
@@ -138,12 +136,7 @@ $helper = $this->helper('ITfy\Task\Helper\Data');
         "jquery",
         "mage/calendar"
     ], function($){
-        $("#started_at").calendar({
-            buttonText:"<?php echo __('Select Date') ?>"
-        });
-
-        $("#finished_at").calendar({
-            buttonText:"<?php echo __('Select Date') ?>"
-        });
+        $("#started_at").datetimepicker();
+        $("#finished_at").datetimepicker();
     });
 </script>

@@ -127,8 +127,8 @@ class Save extends Action
         $taskModel->setName($data['name'])
             ->setDescription($data['description'])
             ->setAssignedPerson($data['assigned_person'])
-            ->setStartedAt($data['started_at'])
-            ->setFinishedAt($data['finished_at'])
+            ->setStartedAt($this->convertDataToDb($data['started_at']))
+            ->setFinishedAt($this->convertDataToDb($data['finished_at']))
             ->setStatus($data['status']);
 
         $this->taskResourceModel->save($taskModel);
@@ -146,12 +146,29 @@ class Save extends Action
             'name' => $data['name'],
             'description' => trim($data['description']),
             'assigned_person' => $data['assigned_person'],
-            'started_at' => $data['started_at'],
-            'finished_at' => $data['finished_at'],
+            'started_at' => $this->convertDataToDb($data['started_at']),
+            'finished_at' => $this->convertDataToDb($data['finished_at']),
             'status' => $data['status']
         ]);
 
         $this->taskResourceModel->save($taskModel);
+    }
+
+    protected function convertDataToDb($date)
+    {
+        if (!$date) {
+            return null;
+        }
+
+        try {
+            $dateTime = $this->timezone
+                ->date(new \DateTime($date))
+                ->format('Y-m-d H:i:s');
+
+            return $dateTime;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

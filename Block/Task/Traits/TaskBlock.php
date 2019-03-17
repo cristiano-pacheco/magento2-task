@@ -45,4 +45,12 @@ trait TaskBlock
     {
         return $this->getUrl('customer/task/delete', ['id' => $task['entity_id']]);
     }
+
+    public function formatDateToApp($date)
+    {
+        if (!$date) {
+            return null;
+        }
+        return $this->formatDate($date, \IntlDateFormatter::SHORT, true);
+    }
 }
