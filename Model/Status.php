@@ -4,13 +4,17 @@ namespace ITfy\Task\Model;
 
 class Status
 {
+    const STATUS_TODO = '1';
+    const STATUS_IN_PROGRESS = '2';
+    const STATUS_DONE = '3';
+
     /**
      * @var array
      */
     protected $status = [
-        '1' => 'TODO',
-        '2' => 'IN PROGRESS',
-        '3' => 'DONE'
+        self::STATUS_TODO => 'TODO',
+        self::STATUS_IN_PROGRESS => 'IN PROGRESS',
+        self::STATUS_DONE => 'DONE'
     ];
 
     /**

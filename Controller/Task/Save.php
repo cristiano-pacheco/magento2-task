@@ -95,6 +95,15 @@ class Save extends Action
             $this->validateForm();
 
             $data = $this->getRequest()->getParams();
+
+            if ($data['status'] == Status::STATUS_IN_PROGRESS && empty($data['started_at'])) {
+                $data['started_at'] = new \DateTime('now');
+            }
+
+            if ($data['status'] == Status::STATUS_DONE && empty($data['finished_at'])) {
+                $data['finished_at'] = new \DateTime('now');
+            }
+
             if (isset($data['id']) && !empty($data['id'])) {
                 $this->updateTask($data);
             } else {
@@ -154,6 +163,10 @@ class Save extends Action
         $this->taskResourceModel->save($taskModel);
     }
 
+    /**
+     * @param string|\DateTime $date
+     * @return string|null
+     */
     protected function convertDataToDb($date)
     {
         if (!$date) {
@@ -161,12 +174,19 @@ class Save extends Action
         }
 
         try {
-            $dateTime = $this->timezone
-                ->date(new \DateTime($date))
-                ->format('Y-m-d H:i:s');
+            if ($date instanceof \DateTime) {
+                $dateTime = $this->timezone
+                    ->date($date)
+                    ->format('Y-m-d H:i:s');
+            } else {
+                $dateTime = $this->timezone
+                    ->date(new \DateTime($date))
+                    ->format('Y-m-d H:i:s');
+            }
 
             return $dateTime;
         } catch (\Exception $e) {
+            echo $e->getMessage();die;
             return null;
         }
     }
@@ -231,20 +251,22 @@ class Save extends Action
     }
 
     /**
-     * @param string $date
+     * @param string|\DateTime $date
      * @return bool
      */
     protected function isValidDate($date)
     {
         if (!$date) {
-            return false;
+            return true;
         }
 
         try {
-            $dateTime = $this->timezone
-                ->date(new \DateTime($date))
-                ->format('Y-m-d');
-            return $this->dateValidator->isValid($dateTime);
+            if ($date instanceof \DateTime) {
+                return true;
+            } else {
+              new \DateTime($date);
+            }
+            return true;
         } catch (\Exception $e) {
             return false;
         }
