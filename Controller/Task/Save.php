@@ -95,23 +95,13 @@ class Save extends Action
             $this->validateForm();
 
             $data = $this->getRequest()->getParams();
+            if (isset($data['id']) && !empty($data['id'])) {
+                $this->updateTask($data);
+            } else {
+                $this->createTask($data);
+            }
 
-            $taskModel = $this->taskModelFactory->create();
-
-            $taskModel->setData([
-                'name' => $data['name'],
-                'description' => $data['description'],
-                'assigned_person' => $data['assigned_person'],
-                'started_at' => $data['started_at'],
-                'finished_at' => $data['finished_at'],
-                'status' => $data['status']
-            ]);
-
-            $this->taskResourceModel->save($taskModel);
-
-            $this->messageManager->addSuccessMessage(
-                __('Task saved successfully.')
-            );
+            $this->messageManager->addSuccessMessage(__('Task saved successfully.'));
 
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -120,7 +110,7 @@ class Save extends Action
         } catch (\Exception $e) {
             $this->logger->critical($e);
             $this->messageManager->addErrorMessage(
-                __('An error occurred while processing your form. Please try again later.')
+                __('An error occurred while processing your form. Please try again later')
             );
             $this->dataPersistor->set('customer_task', $this->getRequest()->getParams());
         }
@@ -128,6 +118,41 @@ class Save extends Action
         return $this->resultRedirectFactory->create()->setPath('customer/task');
     }
 
+
+    protected function updateTask(array $data)
+    {
+        $taskModel = $this->taskModelFactory->create();
+        $this->taskResourceModel->load($taskModel, (int)$data['id']);
+
+        $taskModel->setName($data['name'])
+            ->setDescription($data['description'])
+            ->setAssignedPerson($data['assigned_person'])
+            ->setStartedAt($data['started_at'])
+            ->setFinishedAt($data['finished_at'])
+            ->setStatus($data['status']);
+
+        $this->taskResourceModel->save($taskModel);
+    }
+
+    /**
+     * @param array $data
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
+     */
+    protected function createTask(array $data)
+    {
+        $taskModel = $this->taskModelFactory->create();
+
+        $taskModel->setData([
+            'name' => $data['name'],
+            'description' => trim($data['description']),
+            'assigned_person' => $data['assigned_person'],
+            'started_at' => $data['started_at'],
+            'finished_at' => $data['finished_at'],
+            'status' => $data['status']
+        ]);
+
+        $this->taskResourceModel->save($taskModel);
+    }
 
     /**
      * @return array
@@ -138,23 +163,23 @@ class Save extends Action
         $request = $this->getRequest();
 
         if (trim($request->getParam('name')) === '') {
-            throw new LocalizedException(__('Enter the name value and try again.'));
+            throw new LocalizedException(__('Enter the name value and try again'));
         }
 
         if (strlen(trim($request->getParam('name'))) > 100) {
-            throw new LocalizedException(__('The name field can not contain more than 100 characters.'));
+            throw new LocalizedException(__('The name field can not contain more than 100 characters'));
         }
 
         if (trim($request->getParam('description')) === '') {
-            throw new LocalizedException(__('Enter the description value and try again.'));
+            throw new LocalizedException(__('Enter the description value and try again'));
         }
 
         if (trim($request->getParam('status')) === '') {
-            throw new LocalizedException(__('Enter the status value and try again.'));
+            throw new LocalizedException(__('Enter the status value and try again'));
         }
 
         if ($this->isInvalidStatusValue($request->getParam('status'))) {
-            throw new LocalizedException(__('The value of status is invalid.'));
+            throw new LocalizedException(__('The value of status is invalid'));
         }
 
         $startedAt = $request->getParam('started_at');
@@ -169,11 +194,11 @@ class Save extends Action
         }
 
         if ($finishedAt && !$startedAt) {
-            throw new LocalizedException(__('Enter the started at value and try again.'));
+            throw new LocalizedException(__('Enter the started at value and try again'));
         }
 
         if ($this->isStartDateLessThanEndDate($startedAt, $finishedAt)) {
-            throw new LocalizedException(__('The started at value must be less than the finished at.'));
+            throw new LocalizedException(__('The started at value must be less than the finished at'));
         }
 
         return $request->getParams();
@@ -194,6 +219,10 @@ class Save extends Action
      */
     protected function isValidDate($date)
     {
+        if (!$date) {
+            return false;
+        }
+
         try {
             $dateTime = $this->timezone
                 ->date(new \DateTime($date))

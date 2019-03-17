@@ -8,9 +8,9 @@ trait TaskBlock
      * @param array $task
      * @return string
      */
-    public function getViewUrl($task)
+    public function getEditUrl($task)
     {
-        return $this->getUrl('customer/task/view', ['entity_id' => $task['entity_id']]);
+        return $this->getUrl('customer/task/edit', ['id' => $task['entity_id']]);
     }
 
     /**
